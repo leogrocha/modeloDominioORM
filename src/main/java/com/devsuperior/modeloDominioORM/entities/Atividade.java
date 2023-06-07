@@ -1,15 +1,23 @@
 package com.devsuperior.modeloDominioORM.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_atividade")
 public class Atividade {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,10 +25,21 @@ public class Atividade {
     private String descricao;
     private Double preco;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @OneToMany(mappedBy = "atividade")
+    private List<Bloco> blocos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "atividade")
+    // private Participante participante;
+    private Set<Participante> participantes = new HashSet<>();
+
     public Atividade() {
 
     }
-    
+
     public Atividade(Integer id, String nome, String descricao, Double preco) {
         this.id = id;
         this.nome = nome;
@@ -60,6 +79,22 @@ public class Atividade {
         this.preco = preco;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public List<Bloco> getBlocos() {
+        return blocos;
+    }
+
+    public Set<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    // public Participante getParticipante() {
+    //     return participante;
+    // }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -85,5 +120,4 @@ public class Atividade {
         return true;
     }
 
-    
 }

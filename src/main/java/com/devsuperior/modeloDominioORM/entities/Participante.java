@@ -1,15 +1,18 @@
 package com.devsuperior.modeloDominioORM.entities;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_participante")
 public class Participante {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,10 +20,15 @@ public class Participante {
     private String nome;
     private String email;
 
+    @ManyToOne
+    @JoinColumn(name = "atividade_id")
+    private Atividade atividade;
+    // private Set<Atividade> atividades = new HashSet<>();
+
     public Participante() {
 
     }
-    
+
     public Participante(Integer id, String nome, String email) {
         this.id = id;
         this.nome = nome;
@@ -51,6 +59,14 @@ public class Participante {
         this.email = email;
     }
 
+    // public Set<Atividade> getAtividades() {
+    //     return atividades;
+    // }
+
+    public Atividade getAtividade() {
+        return atividade;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -76,7 +92,4 @@ public class Participante {
         return true;
     }
 
-    
-
-    
 }
